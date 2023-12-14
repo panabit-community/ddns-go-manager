@@ -4,6 +4,9 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
+	"syscall"
 )
 
 func CopyFile(src, dest string, perm os.FileMode) error {
@@ -48,4 +51,32 @@ func CopyDir(src, dest string, perm os.FileMode) error {
 		}
 	}
 	return nil
+}
+
+func ReadPidfile(name string) (int, error) {
+	d, err := os.ReadFile(name)
+	if err != nil {
+		return 0, err
+	}
+	if pid, err := strconv.Atoi(strings.TrimSpace(string(d))); err != nil {
+		return 0, err
+	} else {
+		return pid, nil
+	}
+}
+
+func WritePidfile(name string, pid int) error {
+	return os.WriteFile(name, []byte(strconv.Itoa(pid)), 0644)
+}
+
+func RemovePidfile(name string) error {
+	return os.Remove(name)
+}
+
+func DescribeProcessExists(pid int) (bool, error) {
+	p, err := os.FindProcess(pid)
+	if err != nil {
+		return false, err
+	}
+	return p.Signal(syscall.Signal(0)) == nil, nil
 }

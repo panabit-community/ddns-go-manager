@@ -1,0 +1,9 @@
+dnsconf: {}
+user:
+  username: ""
+  password: ""
+webhook:
+  webhookurl: ""
+  webhookrequestbody: ""
+  webhookheaders: ""
+notallowwanaccess: true

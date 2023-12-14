@@ -12,6 +12,9 @@ const (
 	PanabitPathKey           = "PGPATH"
 	PanabitControlPanelIndex = "webmain"
 
+	RunDir  = "/run"
+	Pidfile = RunDir + "/ddns-go.pid"
+
 	Ramdisk            = "/usr/ramdisk"
 	ExtensionHome      = Ramdisk + "/app"
 	ExtensionDir       = ExtensionHome + "/" + Name

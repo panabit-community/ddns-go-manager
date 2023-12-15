@@ -6,7 +6,7 @@ GOTEST=$(GOCMD) test
 GOCLEAN=$(GOCMD) clean
 
 DIST_DIR=./build/dist
-PACKAGE=./build/panabit-ddns-go-manager.tar.gz
+PACKAGE=./build/panabit-ddns-go.tar.gz
 
 
 all: clean build package

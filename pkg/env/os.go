@@ -56,6 +56,9 @@ func CopyDir(src, dest string, perm os.FileMode) error {
 func ReadPidfile(name string) (int, error) {
 	d, err := os.ReadFile(name)
 	if err != nil {
+		if os.IsNotExist(err) {
+			return 0, nil
+		}
 		return 0, err
 	}
 	if pid, err := strconv.Atoi(strings.TrimSpace(string(d))); err != nil {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/env"
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/html"
 )
 
@@ -14,6 +15,10 @@ const (
 	PartialIndexTemplate = "index.tpl"
 )
 
+func init() {
+	env.Init()
+}
+
 func main() {
 	if err := render(); err != nil {
 		os.Exit(1)
@@ -22,9 +27,11 @@ func main() {
 
 func render() error {
 	d := struct {
-		Title string
+		ContentType string
+		Title       string
 	}{
-		Title: "DDNS-GO Manager",
+		ContentType: "text/html; charset=GB2312",
+		Title:       "DDNS-GO Manager",
 	}
 	s, err := html.Render(
 		DefaultTemplatePath,

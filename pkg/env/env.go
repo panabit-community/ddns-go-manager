@@ -7,10 +7,9 @@ import (
 )
 
 const (
-	Name                     = "ddns-go-manager"
-	Environment              = "/etc/PG.conf"
-	PanabitPathKey           = "PGPATH"
-	PanabitControlPanelIndex = "webmain"
+	Name           = "ddns-go"
+	Environment    = "/etc/PG.conf"
+	PanabitPathKey = "PGPATH"
 
 	RunDir  = "/run"
 	Pidfile = RunDir + "/ddns-go.pid"
@@ -27,10 +26,11 @@ const (
 )
 
 var (
-	StorageHome                     = "/usr/panabit"
-	ExtensionStorageDir             = StorageHome + "/app/" + Name
-	ExtensionCgiStorageDir          = ExtensionStorageDir + "/web/cgi"
-	ExtensionWebTemplatesStorageDir = ExtensionStorageDir + "/web/template"
+	StorageHome                      = "/usr/panabit"
+	ExtensionStorageDir              = StorageHome + "/app/" + Name
+	ExtensionConfigurationStorageDir = ExtensionStorageDir + "/config"
+	ExtensionCgiStorageDir           = ExtensionStorageDir + "/web/cgi"
+	ExtensionWebTemplatesStorageDir  = ExtensionStorageDir + "/web/template"
 )
 
 func Init() {
@@ -40,6 +40,7 @@ func Init() {
 	}
 	StorageHome = v
 	ExtensionStorageDir = StorageHome + "/app/" + Name
+	ExtensionConfigurationStorageDir = ExtensionStorageDir + "/config"
 	ExtensionCgiStorageDir = ExtensionStorageDir + "/web/cgi"
 	ExtensionWebTemplatesStorageDir = ExtensionStorageDir + "/web/template"
 }

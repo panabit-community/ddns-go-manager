@@ -1,0 +1,3 @@
+{{ define "html" }}
+{{ .Data }}
+{{ end }}

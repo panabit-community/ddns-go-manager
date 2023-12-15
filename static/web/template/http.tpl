@@ -1,5 +1,4 @@
-Content-type: text/html; charset=GB2312
+Content-type: {{ .ContentType }}
 Cache-Control: no-cache
-
 
 {{ template "html" . }}

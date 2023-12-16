@@ -1,6 +1,7 @@
 package ddnsgo
 
 import (
+	"os"
 	"os/exec"
 
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/env"
@@ -27,11 +28,25 @@ func Start(opts StartOpts) (int, error) {
 	if err := cmd.Start(); err != nil {
 		return 0, err
 	}
-	env.WritePidfile(env.Pidfile, cmd.Process.Pid)
-	return cmd.Process.Pid, nil
+	err := env.WritePidfile(env.Pidfile, cmd.Process.Pid)
+	return cmd.Process.Pid, err
 }
 
 func Stop() error {
+	pid, err := env.ReadPidfile(env.Pidfile)
+	if err != nil {
+		return err
+	}
+	p, err := os.FindProcess(pid)
+	if err != nil {
+		return err
+	}
+	if err := p.Kill(); err != nil {
+		return err
+	}
+	if err := env.RemovePidfile(env.Pidfile); err != nil {
+		return err
+	}
 	return nil
 }
 

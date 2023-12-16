@@ -26,11 +26,15 @@ const (
 )
 
 var (
-	StorageHome                      = "/usr/panabit"
-	ExtensionStorageDir              = StorageHome + "/app/" + Name
+	StorageHome         = "/usr/panabit"
+	ExtensionStorageDir = StorageHome + "/app/" + Name
+
 	ExtensionConfigurationStorageDir = ExtensionStorageDir + "/config"
-	ExtensionCgiStorageDir           = ExtensionStorageDir + "/web/cgi"
-	ExtensionWebTemplatesStorageDir  = ExtensionStorageDir + "/web/template"
+	DdnsGoConfiguration              = ExtensionConfigurationStorageDir + "/ddns-go.yaml"
+	ManagerConfiguration             = ExtensionConfigurationStorageDir + "/manager.yaml"
+
+	ExtensionCgiStorageDir          = ExtensionStorageDir + "/web/cgi"
+	ExtensionWebTemplatesStorageDir = ExtensionStorageDir + "/web/template"
 )
 
 func Init() {

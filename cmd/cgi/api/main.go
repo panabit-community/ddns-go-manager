@@ -2,14 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
+	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/cgi"
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/env"
-)
-
-const (
-	cgiPrefix = "CGI_"
 )
 
 func init() {
@@ -18,7 +14,7 @@ func init() {
 
 func main() {
 	var res string
-	switch strings.ToLower(parseAction()) {
+	switch strings.ToLower(cgi.ParseAction()) {
 	case strings.ToLower("StartInstance"):
 		res = render(startInstance())
 	case strings.ToLower("StopInstance"):
@@ -28,12 +24,4 @@ func main() {
 	default:
 	}
 	fmt.Println(res)
-}
-
-func parseAction() string {
-	return parseParameter("action")
-}
-
-func parseParameter(key string) string {
-	return os.Getenv(cgiPrefix + key)
 }

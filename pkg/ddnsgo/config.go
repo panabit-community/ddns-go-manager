@@ -9,6 +9,10 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+const (
+	Url = "http://127.0.0.1:9876"
+)
+
 var (
 	mutex sync.Mutex
 )

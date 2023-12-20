@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/ddnsgo"
 )
@@ -28,11 +29,19 @@ var (
 )
 
 func Request(api string) (string, error) {
-	act := ParseAction()
-	switch act {
-	case "GET":
+	if len(api) == 0 {
+		r, err := get(api)
+		if err != nil {
+			return "", err
+		}
+		if err := intercept(r, os.Stdout); err != nil {
+			return "", err
+		}
+	}
+	switch ParseMethod() {
+	case "get":
 		return get(api)
-	case "POST":
+	case "post":
 		return post(api)
 	}
 	return "", nil
@@ -74,6 +83,14 @@ func post(api string) (string, error) {
 
 func ParseAction() string {
 	return ParseParameter("action")
+}
+
+func ParseMethod() string {
+	m := os.Getenv("REQUEST_METHOD")
+	if len(m) == 0 {
+		return "get"
+	}
+	return strings.ToLower(m)
 }
 
 func ParseParameter(key string) string {

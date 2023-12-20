@@ -1,12 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"context"
+	"flag"
 	"os"
 
-	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/ddnsgo"
+	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/cgi"
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/env"
-	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/html"
+
+	"github.com/google/subcommands"
 )
 
 const (
@@ -14,6 +16,7 @@ const (
 	HttpTemplate         = "http.tpl"
 	HtmlTemplate         = "html.tpl"
 	PartialIndexTemplate = "index.tpl"
+	RestTemplate         = "rest.tpl"
 )
 
 func init() {
@@ -21,44 +24,18 @@ func init() {
 }
 
 func main() {
-	if err := renderIndex(); err != nil {
-		os.Exit(1)
+	if act := cgi.ParseAction(); act != "" {
+		callRestfulDispatcher(act)
+		return
 	}
-}
-
-func renderIndex() error {
-	pid, err := ddnsgo.Status()
-	var status string
-	if err != nil {
-		status = "unknown"
-	} else if pid == 0 {
-		status = "inactive"
-	} else {
-		status = "active"
-	}
-	d := struct {
-		ContentType string
-		Title       string
-		DDNSGO      struct {
-			Status string
+	subcommands.Register(&cgi.ProxyCmd{}, "")
+	flag.Parse()
+	if flag.NArg() == 0 {
+		if err := renderIndex(); err != nil {
+			os.Exit(1)
 		}
-	}{
-		ContentType: "text/html; charset=GB2312",
-		Title:       "DDNS-GO Manager",
-		DDNSGO: struct {
-			Status string
-		}{
-			Status: status,
-		},
+		return
 	}
-	s, err := html.Render(
-		DefaultTemplatePath,
-		d,
-		HttpTemplate, HtmlTemplate, PartialIndexTemplate,
-	)
-	if err != nil {
-		return err
-	}
-	fmt.Println(s)
-	return nil
+	ctx := context.Background()
+	os.Exit(int(subcommands.Execute(ctx)))
 }

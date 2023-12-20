@@ -20,7 +20,6 @@ build-ctl:
 	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/appctl -v ./cmd
 build-cgi:
 	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/web/cgi/webmain -v ./cmd/cgi
-	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/web/cgi/api -v ./cmd/cgi/api
 build-hooks:
 	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/afterinstall -v ./cmd/hooks/postinstall
 

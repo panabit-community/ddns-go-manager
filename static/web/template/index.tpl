@@ -8,7 +8,7 @@
 </a>
 <script>
     function onClickStartInstance() {
-        const api = '/cgi-bin/App/ddns-go/api?action=StartInstance';
+        const api = '/cgi-bin/App/ddns-go/webmain?action=StartInstance';
         fetch(api)
             .then(response => response.json())
             .then(data => console.log(data))
@@ -16,7 +16,7 @@
     }
 
     function onClickStopInstance() {
-        const api = '/cgi-bin/App/ddns-go/api?action=StopInstance';
+        const api = '/cgi-bin/App/ddns-go/webmain?action=StopInstance';
         fetch(api)
             .then(response => response.json())
             .then(data => console.log(data))

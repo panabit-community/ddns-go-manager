@@ -3,8 +3,7 @@ package cgi
 import (
 	"context"
 	"flag"
-
-	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/ddnsgo"
+	"fmt"
 
 	"github.com/google/subcommands"
 )
@@ -19,11 +18,12 @@ func (*ProxyCmd) Usage() string { return "proxy <API>" }
 
 func (p *ProxyCmd) SetFlags(_ *flag.FlagSet) {}
 
-func (p *ProxyCmd) Execute(_ context.Context, _ *flag.FlagSet, args ...interface{}) subcommands.ExitStatus {
-	if v, ok := args[0].(string); !ok {
+func (p *ProxyCmd) Execute(_ context.Context, f *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
+	s, err := Request(f.Arg(0))
+	if err != nil {
+		fmt.Printf("proxy failed: %v", err)
 		return subcommands.ExitFailure
-	} else {
-		Request(ddnsgo.Url + v)
-		return subcommands.ExitSuccess
 	}
+	fmt.Println(s)
+	return subcommands.ExitSuccess
 }

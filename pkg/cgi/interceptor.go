@@ -1,4 +1,4 @@
-package interceptor
+package cgi
 
 import (
 	gohtml "golang.org/x/net/html"

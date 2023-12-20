@@ -39,11 +39,17 @@ func renderIndex() error {
 	d := struct {
 		ContentType string
 		Title       string
-		Status      string
+		DDNSGO      struct {
+			Status string
+		}
 	}{
 		ContentType: "text/html; charset=GB2312",
 		Title:       "DDNS-GO Manager",
-		Status:      status,
+		DDNSGO: struct {
+			Status string
+		}{
+			Status: status,
+		},
 	}
 	s, err := html.Render(
 		DefaultTemplatePath,

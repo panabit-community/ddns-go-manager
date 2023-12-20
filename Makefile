@@ -1,7 +1,7 @@
 .PHONY: all
 
 GOCMD=go
-GOBUILD=$(GOCMD) build
+GOBUILD=$(GOCMD) build -tags '!debug' -gcflags "all=-N -l" -ldflags "-s -w"
 GOTEST=$(GOCMD) test
 GOCLEAN=$(GOCMD) clean
 
@@ -32,7 +32,7 @@ DDNSGO_URL=https://github.com/jeessy2/ddns-go/releases/download/v5.6.6/ddns-go_5
 package: $(DDNSGO)
 	cp -r ./static/* $(DIST_DIR)
 	chmod +x $(DIST_DIR)/appctrl
-	tar -czvf $(PACKAGE) -C $(DIST_DIR) --exclude='.gitkeep' .
+	tar -czvf $(PACKAGE) -C $(DIST_DIR) --exclude='.gitkeep' --exclude='LICENSE' --exclude='README.md' .
 
 $(DDNSGO):
 	wget -O $(DDNSGO_TARBALL) $(DDNSGO_URL)

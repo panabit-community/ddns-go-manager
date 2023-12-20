@@ -13,23 +13,37 @@ const (
 	cgiPrefix = "CGI_"
 )
 
-func Request(path string, params *[]string) (string, error) {
+var (
+	params = map[string][]string{
+		"save": {
+			"NotAllowWanAccess",
+			"Username",
+			"Password",
+			"WebhookURL",
+			"WebhookRequestBody",
+			"WebhookHeaders",
+			"DnsConf",
+		},
+	}
+)
+
+func Request(api string) (string, error) {
 	act := ParseAction()
 	switch act {
 	case "GET":
-		return get(path, params)
+		return get(api)
 	case "POST":
-		return post(path, params)
+		return post(api)
 	}
 	return "", nil
 }
 
-func get(path string, params *[]string) (string, error) {
+func get(api string) (string, error) {
 	p := url.Values{}
-	for _, v := range *params {
+	for _, v := range params[api] {
 		p.Add(v, ParseParameter(v))
 	}
-	resp, err := http.Get(ddnsgo.Url + path)
+	resp, err := http.Get(ddnsgo.Url + "/" + api)
 	if err != nil {
 		return "", err
 	}
@@ -41,8 +55,21 @@ func get(path string, params *[]string) (string, error) {
 	return string(d), nil
 }
 
-func post(path string, params *[]string) (string, error) {
-	return "", nil
+func post(api string) (string, error) {
+	p := url.Values{}
+	for _, v := range params[api] {
+		p.Add(v, ParseParameter(v))
+	}
+	resp, err := http.PostForm(ddnsgo.Url+"/"+api, p)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	d, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(d), nil
 }
 
 func ParseAction() string {

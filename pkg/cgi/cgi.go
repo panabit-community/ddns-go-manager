@@ -1,6 +1,7 @@
 package cgi
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -29,15 +30,6 @@ var (
 )
 
 func Request(api string) (string, error) {
-	if len(api) == 0 {
-		r, err := get(api)
-		if err != nil {
-			return "", err
-		}
-		if err := intercept(r, os.Stdout); err != nil {
-			return "", err
-		}
-	}
 	switch ParseMethod() {
 	case "get":
 		return get(api)
@@ -57,11 +49,7 @@ func get(api string) (string, error) {
 		return "", err
 	}
 	defer resp.Body.Close()
-	d, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-	return string(d), nil
+	return buildResponse(resp)
 }
 
 func post(api string) (string, error) {
@@ -74,11 +62,22 @@ func post(api string) (string, error) {
 		return "", err
 	}
 	defer resp.Body.Close()
+	return buildResponse(resp)
+}
+
+func buildResponse(resp *http.Response) (string, error) {
+	var res string
+	for k, v := range resp.Header {
+		for _, v := range v {
+			res += fmt.Sprintf("%s: %s\n", k, v)
+		}
+	}
+	res += "\n"
 	d, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
-	return string(d), nil
+	return res + string(d), nil
 }
 
 func ParseAction() string {

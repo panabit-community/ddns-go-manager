@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os"
 
+	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/ddnsgo"
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/env"
 
 	"github.com/google/subcommands"
@@ -28,6 +29,9 @@ func (p *Cmd) Execute(_ context.Context, _ *flag.FlagSet, _ ...interface{}) subc
 		return subcommands.ExitFailure
 	}
 	if err := env.CopyDir(env.ExtensionWebTemplatesStorageDir, env.ExtensionWebTemplatesDir, 0644); err != nil {
+		return subcommands.ExitFailure
+	}
+	if _, err := ddnsgo.Start(ddnsgo.DefaultStartOpts); err != nil {
 		return subcommands.ExitFailure
 	}
 	return subcommands.ExitSuccess

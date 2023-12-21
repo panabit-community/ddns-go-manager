@@ -9,10 +9,12 @@ import (
 
 type StartOpts struct {
 	ConfigPath string
+	Listen     string
 }
 
 var DefaultStartOpts = StartOpts{
 	ConfigPath: env.ExtensionConfigurationStorageDir + "/ddns-go.yaml",
+	Listen:     "127.0.0.1:9876",
 }
 
 func Start(opts StartOpts) (int, error) {
@@ -24,6 +26,7 @@ func Start(opts StartOpts) (int, error) {
 	cmd := exec.Command(
 		env.DdnsGoBinary,
 		"-c", opts.ConfigPath,
+		"-l", opts.Listen,
 	)
 	if err := cmd.Start(); err != nil {
 		return 0, err

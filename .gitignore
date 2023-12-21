@@ -27,3 +27,5 @@ build/*.tar.gz
 # Third party dependencies
 static/bin/*
 !static/bin/.gitkeep
+static/certs/*
+!static/certs/.gitkeep

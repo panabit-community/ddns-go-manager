@@ -20,6 +20,9 @@ const (
 	ExtensionBinaryDir = ExtensionDir + "/bin"
 	DdnsGoBinary       = ExtensionBinaryDir + "/ddns-go"
 
+	Certificates        = "/etc/ssl/certs/ca-certificates.crt"
+	BundledCertificates = ExtensionDir + "/certs/ca-bundle.crt"
+
 	ControlPanelHome         = Ramdisk + "/admin"
 	ExtensionCgiDir          = ControlPanelHome + "/cgi-bin/App/" + Name
 	ExtensionWebTemplatesDir = ExtensionCgiDir + "/template"

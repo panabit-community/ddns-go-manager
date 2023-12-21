@@ -11,6 +11,8 @@ import (
 func callRestfulDispatcher(act string) {
 	var res string
 	switch strings.ToLower(act) {
+	case strings.ToLower("UpdateCertificates"):
+		res = renderRest(updateCertificates())
 	case strings.ToLower("StartInstance"):
 		res = renderRest(startInstance())
 	case strings.ToLower("StopInstance"):
@@ -36,7 +38,7 @@ func renderRest(code int, data any) string {
 		ContentType string
 		Data        string
 	}{
-		ContentType: "application/json; charset=GB2312",
+		ContentType: "application/json; charset=UTF-8",
 		Data:        string(j),
 	}
 	s, _ := html.Render(DefaultTemplatePath, d, HttpTemplate, RestTemplate)

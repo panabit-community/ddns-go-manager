@@ -8,7 +8,6 @@ GOCLEAN=$(GOCMD) clean
 DIST_DIR=./build/dist
 PACKAGE=./build/panabit-ddns-go.tar.gz
 
-
 all: clean build package
 
 clean:
@@ -21,16 +20,21 @@ build-ctl:
 build-cgi:
 	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/web/cgi/webmain -v ./cmd/cgi
 
+CA_BUNDLE=./static/certs/ca-bundle.crt
+
 DDNSGO=./static/bin/ddns-go
 DDNSGO_PATH=./static/bin
 DDNSGO_TARBALL=./static/bin/ddns-go.tar.gz
 DDNSGO_URL=https://github.com/jeessy2/ddns-go/releases/download/v5.6.6/ddns-go_5.6.6_linux_arm64.tar.gz
 
-package: $(DDNSGO)
+package: $(CA_BUNDLE) $(DDNSGO)
 	cp -r ./static/* $(DIST_DIR)
 	chmod +x $(DIST_DIR)/appctrl
 	chmod +x $(DIST_DIR)/afterinstall
 	tar -czvf $(PACKAGE) -C $(DIST_DIR) --exclude='.gitkeep' --exclude='LICENSE' --exclude='README.md' .
+
+$(CA_BUNDLE):
+	wget -O $(CA_BUNDLE) https://curl.se/ca/cacert.pem
 
 $(DDNSGO):
 	wget -O $(DDNSGO_TARBALL) $(DDNSGO_URL)

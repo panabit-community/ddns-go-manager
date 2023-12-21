@@ -26,6 +26,11 @@ var (
 			"WebhookHeaders",
 			"DnsConf",
 		},
+		"webhookTest": {
+			"URL",
+			"RequestBody",
+			"WebhookHeaders",
+		},
 	}
 )
 

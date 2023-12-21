@@ -12,6 +12,24 @@
 
 下载 Release 版本，请先校验文件哈希无误。打开 Panabit 网关的 Web 管理页，前往**系统概况**->**应用商店**，点按右上角**安装更新**上传并安装插件即可。
 
+## 使用
+
+在 Web 页面进行配置即可，管理口需要可以上网。
+
+### IPv4 使用命令取接口 IP 地址示例
+
+通过接口名取：
+
+```
+floweye nat listproxy | grep WAN | awk '{print $6}' | grep -vE '0.0.0.0'
+```
+
+取第一个 PPPoE 拨号的接口：
+
+```
+floweye nat listproxy | grep pppoe | head -n1 | awk '{print $6}' | grep -vE '0.0.0.0'
+```
+
 ## 自行构建
 
 本地需要有 Go 语言工具链和 Linux 下常用工具。后期会提供 Docker 内构建方式。

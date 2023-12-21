@@ -32,6 +32,8 @@ var (
 	ExtensionConfigurationStorageDir = ExtensionStorageDir + "/config"
 	DdnsGoConfiguration              = ExtensionConfigurationStorageDir + "/ddns-go.yaml"
 	DdnsGoDefaultConfiguration       = ExtensionConfigurationStorageDir + "/ddns-go.default.yaml"
+	ManagerConfiguration             = ExtensionConfigurationStorageDir + "/manager.yaml"
+	ManagerDefaultConfiguration      = ExtensionConfigurationStorageDir + "/manager.default.yaml"
 
 	ExtensionCgiStorageDir          = ExtensionStorageDir + "/web/cgi"
 	ExtensionWebTemplatesStorageDir = ExtensionStorageDir + "/web/template"

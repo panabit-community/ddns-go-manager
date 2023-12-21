@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+. /etc/PG.conf
+CONFIG_PATH="$PGPATH/app/ddns-go/config"
+
+DDNSGO_CONFIG="$CONFIG_PATH/ddns-go.yaml"
+DDNSGO_DEFAULT_CONFIG="$CONFIG_PATH/ddns-go.default.yaml"
+if [ ! -e "$DDNSGO_CONFIG" ]; then
+  cp "$DDNSGO_DEFAULT_CONFIG" "$DDNSGO_CONFIG"
+fi
+
+MANAGER_CONFIG="$CONFIG_PATH/manager.yaml"
+MANAGER_DEFAULT_CONFIG="$CONFIG_PATH/manager.default.yaml"
+if [ ! -e "$MANAGER_CONFIG" ]; then
+  cp "$MANAGER_DEFAULT_CONFIG" "$MANAGER_CONFIG"
+fi
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+"$SCRIPT_DIR"/appctl start

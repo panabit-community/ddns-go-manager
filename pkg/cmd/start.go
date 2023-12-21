@@ -1,4 +1,4 @@
-package start
+package cmd
 
 import (
 	"context"
@@ -11,17 +11,21 @@ import (
 	"github.com/google/subcommands"
 )
 
-type Cmd struct{}
+type StartCmd struct{}
 
-func (*Cmd) Name() string { return "start" }
+func (*StartCmd) Name() string { return "start" }
 
-func (*Cmd) Synopsis() string { return "Start the extension." }
+func (*StartCmd) Synopsis() string { return "Start the extension." }
 
-func (*Cmd) Usage() string { return "start" }
+func (*StartCmd) Usage() string { return "start" }
 
-func (p *Cmd) SetFlags(_ *flag.FlagSet) {}
+func (p *StartCmd) SetFlags(_ *flag.FlagSet) {}
 
-func (p *Cmd) Execute(_ context.Context, _ *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
+func (p *StartCmd) Execute(_ context.Context, _ *flag.FlagSet, _ ...interface{}) subcommands.ExitStatus {
+	return doStart()
+}
+
+func doStart() subcommands.ExitStatus {
 	if err := os.Chmod(env.DdnsGoBinary, 0755); err != nil {
 		return subcommands.ExitFailure
 	}

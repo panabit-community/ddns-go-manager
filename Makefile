@@ -14,14 +14,12 @@ all: clean build package
 clean:
 	rm -rf $(DIST_DIR)
 
-build: build-ctl build-cgi build-hooks
+build: build-ctl build-cgi
 
 build-ctl:
 	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/appctl -v ./cmd
 build-cgi:
 	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/web/cgi/webmain -v ./cmd/cgi
-build-hooks:
-	GOOS=linux GOARCH=arm64 $(GOBUILD) -o $(DIST_DIR)/afterinstall -v ./cmd/hooks/postinstall
 
 DDNSGO=./static/bin/ddns-go
 DDNSGO_PATH=./static/bin
@@ -31,6 +29,7 @@ DDNSGO_URL=https://github.com/jeessy2/ddns-go/releases/download/v5.6.6/ddns-go_5
 package: $(DDNSGO)
 	cp -r ./static/* $(DIST_DIR)
 	chmod +x $(DIST_DIR)/appctrl
+	chmod +x $(DIST_DIR)/afterinstall
 	tar -czvf $(PACKAGE) -C $(DIST_DIR) --exclude='.gitkeep' --exclude='LICENSE' --exclude='README.md' .
 
 $(DDNSGO):

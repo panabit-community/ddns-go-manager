@@ -14,7 +14,7 @@ type StartOpts struct {
 
 var DefaultStartOpts = StartOpts{
 	ConfigPath: env.ExtensionConfigurationStorageDir + "/ddns-go.yaml",
-	Listen:     "127.0.0.1:9876",
+	Listen:     Address,
 }
 
 func Start(opts StartOpts) (int, error) {
@@ -39,6 +39,9 @@ func Stop() error {
 	pid, err := env.ReadPidfile(env.Pidfile)
 	if err != nil {
 		return err
+	}
+	if pid == 0 {
+		return nil
 	}
 	p, err := os.FindProcess(pid)
 	if err != nil {

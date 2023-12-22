@@ -1,6 +1,6 @@
 # Panabit 网关插件系列之 DDNS-GO 启动器
 
-[示例图片](./docs/demo.jpg)
+![示例图片](./docs/demo.jpg)
 
 一个 Panabit 智能应用网关插件，可在不开启 SSH 的条件下为用户安装和维护 [jeessy2/ddns-go](https://github.com/jeessy2/ddns-go)。
 

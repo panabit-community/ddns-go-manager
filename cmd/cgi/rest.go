@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"strings"
 
 	"xie.sh.cn/panabit-ddns-go-manager/v2/pkg/html"
@@ -36,10 +37,10 @@ func renderRest(code int, data any) string {
 	)
 	d := struct {
 		ContentType string
-		Data        string
+		Data        template.HTML
 	}{
 		ContentType: "application/json; charset=UTF-8",
-		Data:        string(j),
+		Data:        template.HTML(j),
 	}
 	s, _ := html.Render(DefaultTemplatePath, d, HttpTemplate, RestTemplate)
 	return s

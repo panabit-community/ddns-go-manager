@@ -2,10 +2,9 @@ dnsconf:
   - ipv4:
       enable: true
       gettype: cmd
-      cmd: floweye nat listproxy | grep pppoe | head -n1 | awk '{print $6}' | grep -vE '0.0.0.0'
+      cmd: floweye nat listproxy | grep pppoe | head -n1 | awk '{print $5}' | grep -vE '0.0.0.0'
     ipv6:
       enable: false
       gettype: cmd
-user:
-webhook:
+      cmd: floweye nat listproxy | grep proxy6 | head -n1 | awk '{print $5}' | grep -vE '0.0.0.0'
 notallowwanaccess: true

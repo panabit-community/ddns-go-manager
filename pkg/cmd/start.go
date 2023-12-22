@@ -35,6 +35,14 @@ func doStart() subcommands.ExitStatus {
 	if err := env.CopyDir(env.ExtensionWebTemplatesStorageDir, env.ExtensionWebTemplatesDir, 0644); err != nil {
 		return subcommands.ExitFailure
 	}
+	if len(ddnsgo.Username()) == 0 || len(ddnsgo.Password()) == 0 {
+		if err := ddnsgo.GenerateCredentials(); err != nil {
+			return subcommands.ExitFailure
+		}
+	}
+	if err := ddnsgo.Stop(); err != nil {
+		return subcommands.ExitFailure
+	}
 	if _, err := ddnsgo.Start(ddnsgo.DefaultStartOpts); err != nil {
 		return subcommands.ExitFailure
 	}

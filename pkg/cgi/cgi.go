@@ -45,14 +45,12 @@ func Request(api string) (string, error) {
 }
 
 func get(api string) (string, error) {
-	p := url.Values{}
-	for _, v := range params[api] {
-		p.Add(v, ParseParameter(v))
-	}
-	resp, err := http.Get(ddnsgo.Url + "/" + api)
+	req, err := http.NewRequest("GET", ddnsgo.Url+"/"+api, nil)
 	if err != nil {
 		return "", err
 	}
+	req.SetBasicAuth(ddnsgo.Username(), ddnsgo.Password())
+	resp, err := http.DefaultClient.Do(req)
 	defer resp.Body.Close()
 	return buildResponse(resp)
 }
@@ -62,7 +60,10 @@ func post(api string) (string, error) {
 	for _, v := range params[api] {
 		p.Add(v, ParseParameter(v))
 	}
-	resp, err := http.PostForm(ddnsgo.Url+"/"+api, p)
+	req, err := http.NewRequest("POST", ddnsgo.Url+"/"+api, strings.NewReader(p.Encode()))
+	req.SetBasicAuth(ddnsgo.Username(), ddnsgo.Password())
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", err
 	}

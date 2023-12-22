@@ -21,13 +21,13 @@
 通过接口名取：
 
 ```
-floweye nat listproxy | grep WAN | awk '{print $6}' | grep -vE '0.0.0.0'
+floweye nat listproxy | grep WAN | awk '{print $5}' | grep -vE '0.0.0.0'
 ```
 
 取第一个 PPPoE 拨号的接口：
 
 ```
-floweye nat listproxy | grep pppoe | head -n1 | awk '{print $6}' | grep -vE '0.0.0.0'
+floweye nat listproxy | grep pppoe | head -n1 | awk '{print $5}' | grep -vE '0.0.0.0'
 ```
 
 ## 自行构建

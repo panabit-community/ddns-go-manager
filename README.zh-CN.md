@@ -16,6 +16,12 @@
 
 在 Web 页面进行配置即可，管理口需要可以上网。
 
+首次使用时，Panabit 网关控制面可能缺少 CA 证书，这将导致应用无法建立 TLS 连接。可以点按本项目提供的**更新证书**（Update Certificates）按钮，该接口将会拷贝安装包内置的 `ca-bundle.crt` 到 `/etc/ssl/certs` 目录下。该证书来自 [https://curl.se/ca/cacert.pem](https://curl.se/ca/cacert.pem)，如欲了解更多信息，请访问 [curl - Extract CA Certs from Mozilla](https://curl.se/docs/caextract.html)。
+
+### ⚠ 潜在的安全风险告知
+
+以命令方式获取地址的操作，将会在网关控制面以 root 用户身份执行。对于要执行的命令，请务必三思而后行，以免带来严重后果。泄露管理页面账密等行为会导致该接口暴露而容易遭到攻击，这有可能使得设备存在永久后门和漏洞。
+
 ### IPv4 使用命令取接口 IP 地址示例
 
 通过接口名取：

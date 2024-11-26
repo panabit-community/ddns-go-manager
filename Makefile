@@ -6,7 +6,8 @@ GOTEST=$(GOCMD) test
 GOCLEAN=$(GOCMD) clean
 
 DIST_DIR=./build/dist
-PACKAGE=./build/panabit-ddns-go.tar.gz
+PACKAGE_AMD64=./build/panabit-ddns-go-amd64.tar.gz
+PACKAGE_ARM64=./build/panabit-ddns-go-arm64.tar.gz
 
 all: clean build package
 
@@ -25,9 +26,21 @@ CA_BUNDLE=./static/certs/ca-bundle.crt
 DDNSGO=./static/bin/ddns-go
 DDNSGO_PATH=./static/bin
 DDNSGO_TARBALL=./static/bin/ddns-go.tar.gz
-DDNSGO_URL=https://github.com/jeessy2/ddns-go/releases/download/v5.6.6/ddns-go_5.6.6_linux_arm64.tar.gz
+DDNSGO_URL_AMD64=https://github.com/jeessy2/ddns-go/releases/download/v6.7.6/ddns-go_6.7.6_linux_x86_64.tar.gz
+DDNSGO_URL_ARM64=https://github.com/jeessy2/ddns-go/releases/download/v6.7.6/ddns-go_6.7.6_linux_arm64.tar.gz
 
-package: $(CA_BUNDLE) $(DDNSGO)
+package: package-amd64 package-arm64
+
+package-amd64: $(CA_BUNDLE)
+	$(MAKE) package-multiarch ARCH=amd64 DDNSGO_URL=$(DDNSGO_URL_AMD64) PACKAGE=$(PACKAGE_AMD64)
+
+package-arm64: $(CA_BUNDLE)
+	$(MAKE) package-multiarch ARCH=arm64 DDNSGO_URL=$(DDNSGO_URL_ARM64) PACKAGE=$(PACKAGE_ARM64)
+
+package-multiarch: $(CA_BUNDLE)
+	wget -O $(DDNSGO_TARBALL) $(DDNSGO_URL)
+	tar -xzvf $(DDNSGO_TARBALL) -C $(DDNSGO_PATH)
+	rm $(DDNSGO_TARBALL)
 	cp -r ./static/* $(DIST_DIR)
 	chmod +x $(DIST_DIR)/appctrl
 	chmod +x $(DIST_DIR)/afterinstall
@@ -35,8 +48,3 @@ package: $(CA_BUNDLE) $(DDNSGO)
 
 $(CA_BUNDLE):
 	wget -O $(CA_BUNDLE) https://curl.se/ca/cacert.pem
-
-$(DDNSGO):
-	wget -O $(DDNSGO_TARBALL) $(DDNSGO_URL)
-	tar -xzvf $(DDNSGO_TARBALL) -C $(DDNSGO_PATH)
-	rm $(DDNSGO_TARBALL)

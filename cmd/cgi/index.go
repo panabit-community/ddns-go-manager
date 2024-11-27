@@ -13,9 +13,9 @@ func renderIndex() error {
 	if err != nil {
 		status = "unknown"
 	} else if pid == 0 {
-		status = "inactive"
+		status = "Closed"
 	} else {
-		status = "active"
+		status = "Opened"
 	}
 	d := struct {
 		ContentType string

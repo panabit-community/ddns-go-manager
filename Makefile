@@ -28,8 +28,8 @@ CA_BUNDLE=./static/certs/ca-bundle.crt
 DDNSGO=./static/bin/ddns-go
 DDNSGO_PATH=./static/bin
 DDNSGO_TARBALL=./static/bin/ddns-go.tar.gz
-DDNSGO_URL_AMD64=https://github.com/jeessy2/ddns-go/releases/download/v6.7.6/ddns-go_6.7.6_linux_x86_64.tar.gz
-DDNSGO_URL_ARM64=https://github.com/jeessy2/ddns-go/releases/download/v6.7.6/ddns-go_6.7.6_linux_arm64.tar.gz
+DDNSGO_URL_AMD64=https://github.com/jeessy2/ddns-go/releases/download/v5.7.1/ddns-go_5.7.1_linux_x86_64.tar.gz
+DDNSGO_URL_ARM64=https://github.com/jeessy2/ddns-go/releases/download/v5.7.1/ddns-go_5.7.1_linux_arm64.tar.gz
 
 package: package-amd64 package-arm64
 

@@ -1,4 +1,4 @@
-.PHONY: all clean build package
+.PHONY: all build
 
 GOCMD=go
 GOBUILD=$(GOCMD) build -tags '!debug' -gcflags "all=-N -l" -ldflags "-s -w"

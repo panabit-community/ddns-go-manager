@@ -29,10 +29,10 @@ func doStart() subcommands.ExitStatus {
 	if err := os.Chmod(env.DdnsGoBinary, 0755); err != nil {
 		return subcommands.ExitFailure
 	}
-	if err := env.CopyDir(env.ExtensionCgiStorageDir, env.ExtensionCgiDir, 0755); err != nil {
+	if err := env.CopyDir(env.ExtensionCgiStorageDir, env.ExtensionCgiDir, 0o755, 0o755); err != nil {
 		return subcommands.ExitFailure
 	}
-	if err := env.CopyDir(env.ExtensionWebTemplatesStorageDir, env.ExtensionWebTemplatesDir, 0644); err != nil {
+	if err := env.CopyDir(env.ExtensionWebTemplatesStorageDir, env.ExtensionWebTemplatesDir, 0o644, 0o755); err != nil {
 		return subcommands.ExitFailure
 	}
 	if len(ddnsgo.Username()) == 0 || len(ddnsgo.Password()) == 0 {

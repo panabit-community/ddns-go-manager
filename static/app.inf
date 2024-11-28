@@ -1,7 +1,7 @@
 app_id=ddnsgo_20231214
 app_name=ddns-go
 app_cname=DDNS-GO
-app_version=0.0.2-rc1
+app_version=0.0.2-rc2
 app_desc=维护一个DDNS-GO实例
 app_width=1200
 app_height=675

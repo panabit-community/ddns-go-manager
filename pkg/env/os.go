@@ -9,7 +9,13 @@ import (
 	"syscall"
 )
 
-func CopyFile(src, dest string, perm os.FileMode) error {
+func CopyFile(src, dest string, perm os.FileMode, dperm os.FileMode) error {
+	// ensure the destination directory exists
+	// github issue #2 and group chat reports
+	dd := filepath.Dir(dest)
+	if err := os.MkdirAll(dd, dperm); err != nil {
+		return err
+	}
 	s, err := os.Open(src)
 	if err != nil {
 		return err
@@ -29,8 +35,8 @@ func CopyFile(src, dest string, perm os.FileMode) error {
 	return nil
 }
 
-func CopyDir(src, dest string, perm os.FileMode) error {
-	if err := os.MkdirAll(dest, perm); err != nil {
+func CopyDir(src, dest string, perm os.FileMode, dperm os.FileMode) error {
+	if err := os.MkdirAll(dest, dperm); err != nil {
 		return err
 	}
 	entries, err := os.ReadDir(src)
@@ -41,11 +47,11 @@ func CopyDir(src, dest string, perm os.FileMode) error {
 		sp := filepath.Join(src, entry.Name())
 		dp := filepath.Join(dest, entry.Name())
 		if entry.IsDir() {
-			if err := CopyDir(sp, dp, perm); err != nil {
+			if err := CopyDir(sp, dp, perm, dperm); err != nil {
 				return err
 			}
 		} else {
-			if err := CopyFile(sp, dp, perm); err != nil {
+			if err := CopyFile(sp, dp, perm, dperm); err != nil {
 				return err
 			}
 		}
